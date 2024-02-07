@@ -49,7 +49,7 @@ class ApiService {
 
   Future<String> sendImageToGPT4Vision({
     required File image,
-    int maxTokens = 50,
+    int maxTokens = 1000,
     String model = "gpt-4-vision-preview",
   }) async {
     final String base64Image = await encodeImage(image);
@@ -68,15 +68,15 @@ class ApiService {
           'messages': [
             {
               'role': 'system',
-              'content': 'You have to give concise and short answers'
+              'content':
+                  'Give only in json format back if there a following types: "checkbox": [ { "label": "", "checked": false } ], "textfield": [ { "label": "", "value": "" } ], "numberinput": [ { "label": "", "value": 0 } ] '
             },
             {
               'role': 'user',
               'content': [
                 {
                   'type': 'text',
-                  'text':
-                      'GPT, your task is to identify plant health issues with precision. Analyze any image of a plant or leaf I provide, and detect all abnormal conditions, whether they are diseases, pests, deficiencies, or decay. Respond strictly with the name of the condition identified, and nothing else—no explanations, no additional text. If a condition is unrecognizable, reply with \'I don\'t know\'. If the image is not plant-related, say \'Please pick another image\'',
+                  'text': 'Give only in json format back.',
                 },
                 {
                   'type': 'image_url',
